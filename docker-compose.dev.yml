@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  next-dev:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+      #target: runner
+    image: next-dev
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    environment:
+      NODE_ENV: development
