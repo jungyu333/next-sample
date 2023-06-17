@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div>Home</div>
-      <div>testrdddrrddd</div>
+      <div>main</div>
       <div>{process.env.NEXT_PUBLIC_API_URL}</div>
     </>
   );
