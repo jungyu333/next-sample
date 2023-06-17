@@ -27,7 +27,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
-          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
           cache-to: type=inline
           # secrets: |
           #   GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
@@ -46,7 +46,8 @@ jobs:
           port: ${{ secrets.DEV_PORT }}
           script: |
             cd ../home/jungyu.kim/next-sample/
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod
+            docker login -u ${{ secrets.NCP_ACCESS_KEY }} -p ${{ secrets.NCP_SECRET_KEY }} ${{ secrets.NCP_CONTAINER_REGISTRY }}
+            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
             docker stop next-prod
             docker rm next-prod
             docker run -d -p 80:3000 --name next-prod --env-file ${{ secrets.ENV_FILENAME_FRONTEND }} ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
