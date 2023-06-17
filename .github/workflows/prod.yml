@@ -26,12 +26,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: |
-            ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
-            ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
           cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
           cache-to: type=inline
-          platforms: linux/amd64,linux/arm64
 
   pull_from_registry:
     name: Connect server ssh and pull from container registry
@@ -48,8 +45,8 @@ jobs:
           script: |
             cd ../home/jungyu.kim/next-sample/
             docker login -u ${{ secrets.NCP_ACCESS_KEY }} -p ${{ secrets.NCP_SECRET_KEY }} ${{ secrets.NCP_CONTAINER_REGISTRY }}
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
+            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
             docker stop ${{secrets.CONTAINER_NAME}}
             docker rm ${{secrets.CONTAINER_NAME}}
-            docker run -d -p 80:3000 --name ${{secrets.CONTAINER_NAME}} --env-file ${{ secrets.ENV_FILENAME_FRONTEND }} ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
+            docker run -d -p 80:3000 --name ${{secrets.CONTAINER_NAME}} --env-file ${{ secrets.ENV_FILENAME_FRONTEND }} ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:latest
             docker image prune -f
