@@ -27,7 +27,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
-                    cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/next-prod:${{ github.run_number }}
           cache-to: type=inline
           # secrets: |
           #   GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
